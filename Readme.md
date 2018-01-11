@@ -2,6 +2,12 @@
 
 An admin UI for the [Hexo blog engine](http://hexo.io). Based off of the [Ghost](http://ghost.org) interface, with inspiration from [svbtle](http://svbtle.com) and [prose.io](http://prose.io).
 
+## Enhanced Version For
+
+- dependencies fix for hexo-fs;
+- editor enhancement for image upload and select;
+- todos...
+
 ## Hexo Version
 
 For 2.x, use version `0.3.0` of this plugin. Version `1.x` and beyond only
