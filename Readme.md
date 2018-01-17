@@ -8,6 +8,14 @@ An admin UI for the [Hexo blog engine](http://hexo.io). Based off of the [Ghost]
 - editor enhancement for image upload and select;
 - todos...
 
+## Local development workflow
+
+- start your local hexo blog
+- run 'gulp' in the plugin root directory
+- made some changes in client source
+- cp www/bundle.js www/bundle.css into your local hexo blog/node_modules/hexo-admin-ehc/www
+- refresh http://localhost:4000/admin
+
 ## Hexo Version
 
 For 2.x, use version `0.3.0` of this plugin. Version `1.x` and beyond only

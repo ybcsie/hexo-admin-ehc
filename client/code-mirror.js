@@ -8,7 +8,10 @@ var CodeMirror = React.createClass({
   propTypes: {
     onScroll: PT.func,
     forceLineNumbers: PT.bool,
-    adminSettings: PT.object
+    adminSettings: PT.object,
+    onFocus: PT.func,
+    onBlur: PT.func,
+    onCusorActivity: PT.func
   },
 
   componentDidUpdate: function (prevProps) {
@@ -20,6 +23,22 @@ var CodeMirror = React.createClass({
       if (!(this.props.adminSettings.editor || {}).lineNumbers) {
         this.cm.setOption('lineNumbers', this.props.forceLineNumbers);
       }
+    }
+    if(prevProps.cusor !== this.props.cusor) {
+      this.cm.focus(); // focus first is a must!
+      this.cm.setCursor(this.props.cusor);
+    }
+
+    // COMPARE WITH PREVIOUS VALUE IS A MUST!
+    // OTHERWISE LOOP INFINITELY
+    if(prevProps.mdImg !== this.props.mdImg) {
+      this.cm.focus(); // focus first is a must!
+      var cursor = this.lastCusor; // gets the line number in the cursor position
+      var pos = { // create a new object to avoid mutation of the original selection
+          line: cursor.line,
+          ch: 0 // set the character position to the START of the line
+      }
+      this.cm.replaceRange(this.props.mdImg+'\r\n', pos, pos); // adds a new line
     }
   },
 
@@ -35,15 +54,24 @@ var CodeMirror = React.createClass({
     for (var key in this.props.adminSettings.editor) {
       editorSettings[key] = this.props.adminSettings.editor[key]
     }
-
+    // getDOMNode() ?
     this.cm = CM(this.getDOMNode(), editorSettings);
     this.cm.on('change', (cm) => {
-      this.props.onChange(cm.getValue())
+      this.props.onChange(cm.getValue());
     })
     this.cm.on('scroll', (cm) => {
       var node = cm.getScrollerElement()
       var max = node.scrollHeight - node.getBoundingClientRect().height
       this.props.onScroll(node.scrollTop / max)
+    })
+    this.cm.on('focus', cm => {
+      this.lastCusor = this.cm.getCursor();
+    })
+    this.cm.on('blur', cm => {
+      this.lastCusor = this.cm.getCursor();
+    })
+    this.cm.on('cursorActivity', cm => {
+      this.lastCusor = this.cm.getCursor();
     })
     var box = this.getDOMNode().parentNode.getBoundingClientRect()
     this.cm.setSize(box.width, box.height - 32)
@@ -93,6 +121,15 @@ var CodeMirror = React.createClass({
     };
     reader.readAsDataURL(blob);
   },
+
+  /**
+   * get codemirror instance
+   * @return {[type]} [description]
+   */
+  getCodeMirror: function getCodeMirror() {
+		return this.cm;
+	},
+
 
   render: function () {
     return <div/>

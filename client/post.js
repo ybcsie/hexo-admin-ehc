@@ -76,9 +76,8 @@ var Post = React.createClass({
   },
 
   handleChangeContent: function (text) {
-    if (text === this.state.raw) {
-      return
-    }
+    if (text === this.state.raw) return;
+
     this.setState({
       raw: text,
       updated: null,
@@ -150,14 +149,14 @@ var Post = React.createClass({
       updated: this.state.updated,
       title: this.state.title,
       rendered: this.state.rendered,
+      tagsCategoriesAndMetadata: this.state.tagsCategoriesAndMetadata,
+      adminSettings: settings,
       onChange: this.handleChange,
       onChangeContent: this.handleChangeContent,
       onChangeTitle: this.handleChangeTitle,
       onPublish: this.handlePublish,
       onUnpublish: this.handleUnpublish,
-      onRemove: this.handleRemove,
-      tagsCategoriesAndMetadata: this.state.tagsCategoriesAndMetadata,
-      adminSettings: settings
+      onRemove: this.handleRemove
     })
   }
 });

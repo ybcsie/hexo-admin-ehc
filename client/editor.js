@@ -12,6 +12,9 @@ var ConfigDropper = require('./config-dropper')
 var RenameFile = require('./rename-file')
 
 var Editor = React.createClass({
+
+  // cmRef: null,
+
   propTypes: {
     post: PT.object,
     raw: PT.string,
@@ -23,22 +26,34 @@ var Editor = React.createClass({
     onPublish: PT.func.isRequired,
     onUnpublish: PT.func.isRequired,
     tagsCategoriesAndMetadata: PT.object,
-    adminSettings: PT.object
+    adminSettings: PT.object,
+
   },
 
   getInitialState: function() {
-    var url = window.location.pathname.split('/')
-    var rootPath = url.slice(0, url.indexOf('admin')).join('/')
+    //FIXME, use href is right!
+    var url = window.location.href.split('/')
+    var rootPath = url.slice(0, url.indexOf('admin')).join('/');
+    var completeURL = rootPath+'/'+this.props.post.path;
     return {
-      previewLink: path.join(rootPath, this.props.post.path),
+      postPath: this.props.post.path,
+      previewLink: completeURL,
       checkingGrammar: false,
     }
   },
+  // TODO, ...juest for test
+  componentDidMount: function() {
 
-  handlePreviewLink: function(previewLink) {
-    console.log('updating preview link')
+  },
+
+  // recreate previewLink
+  handlePreviewLink: function(postNewPath) {
+    var url = window.location.href.split('/')
+    var rootPath = url.slice(0, url.indexOf('admin')).join('/');
+    var completeURL = rootPath+'/'+postNewPath;
     this.setState({
-      previewLink: path.join(previewLink)
+      postPath: postNewPath,
+      previewLink: completeURL
     })
   },
 
@@ -57,7 +72,15 @@ var Editor = React.createClass({
   onCheckGrammar: function () {
     this.setState({
       checkingGrammar: !this.state.checkingGrammar
-    })
+    });
+  },
+
+  // TODO, ...add real image address...
+  onAddImage: function () {
+    // console.log('add image...');
+    this.setState({
+      mdImg: '![image]()'
+    });
   },
 
   render: function () {
@@ -70,17 +93,21 @@ var Editor = React.createClass({
           className='editor_title'
           value={this.props.title}
           onChange={this.handleChangeTitle}/>
+
         {!this.props.isPage && <ConfigDropper
           post={this.props.post}
           tagsCategoriesAndMetadata={this.props.tagsCategoriesAndMetadata}
           onChange={this.props.onChange}/>}
+
         {!this.props.isPage && (this.props.isDraft ?
+          /* this is a comment for publish button */
           <button className="editor_publish" onClick={this.props.onPublish}>
             Publish
           </button> :
           <button className="editor_unpublish" onClick={this.props.onUnpublish}>
             Unpublish
           </button>)}
+
           {!this.props.isPage && (this.props.isDraft ?
           <button className="editor_remove" title="Remove"
                   onClick={this.props.onRemove}>
@@ -90,12 +117,22 @@ var Editor = React.createClass({
                   onClick={this.props.onRemove} disabled>
             <i className="fa fa-trash-o" aria-hidden="true"/>
           </button>)}
+
           {!this.props.isPage &&
           <button className="editor_checkGrammar" title="Check for Writing Improvements"
                   onClick={this.onCheckGrammar}>
             <i className="fa fa-check-circle-o"/>
           </button>}
+          {/* add image button */}
+          {!this.props.isPage &&
+            <button className="editor_addImage" title="Add Image to Post"
+                    onClick={this.onAddImage}>
+              <i className="fa fa-picture-o"/>
+            </button>
+          }
+
       </div>
+
       <div className="editor_main">
         <div className="editor_edit">
           <div className="editor_md-header">
@@ -107,11 +144,13 @@ var Editor = React.createClass({
               <RenameFile post={this.props.post}
                 handlePreviewLink={this.handlePreviewLink} /></span>
           </div>
+          {/* comment like this */}
           <CodeMirror
+            mdImg={this.state.mdImg}
+            forceLineNumbers={this.state.checkingGrammar}
             onScroll={this.handleScroll}
             initialValue={this.props.raw}
             onChange={this.props.onChangeContent}
-            forceLineNumbers={this.state.checkingGrammar}
             adminSettings={this.props.adminSettings} />
         </div>
         <div className="editor_display">
@@ -121,7 +160,7 @@ var Editor = React.createClass({
             </span>
             Preview
             {' '}<a className="editor_perma-link" href={this.state.previewLink} target="_blank">
-              <i className="fa fa-link"/> {this.state.previewLink}
+              <i className="fa fa-link"/> {this.state.postPath}
             </a>
           </div>
           {!this.state.checkingGrammar && <Rendered

@@ -1,4 +1,5 @@
 
+// index.js
 var admin = require('./')
   , api = require('./api')
 
