@@ -66,6 +66,8 @@ var CodeMirror = React.createClass({
     })
     this.cm.on('focus', cm => {
       this.lastCusor = this.cm.getCursor();
+      // @2018/02/06
+      if(this.props.onFocus) this.props.onFocus();
     })
     this.cm.on('blur', cm => {
       this.lastCusor = this.cm.getCursor();

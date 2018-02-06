@@ -6,15 +6,43 @@ An admin UI for the [Hexo blog engine](http://hexo.io). Based off of the [Ghost]
 
 - dependencies fix for hexo-fs;
 - editor enhancement for image upload and select;
+- use deploy button to generate static files locally;
+- fix preview link opening;
+- multi language support
 - todos...
 
-## Local development workflow
+## Local client Development Workflow
 
 - start your local hexo blog
-- run 'gulp' in the plugin root directory
+- run 'gulp build' in the plugin root directory for client source change
 - made some changes in client source
 - cp www/bundle.js www/bundle.css into your local hexo blog/node_modules/hexo-admin-ehc/www
 - refresh http://localhost:4000/admin
+
+## Local api Development Workflow
+
+- cd plugin root directory
+- change api.js logic
+- cp api.js into your local hexo blog/node_modules/hexo-admin-ehc/
+- restart hexo blog to reload plugin service
+
+## Running hexo blog in Daemon
+
+- create a shell script, start.sh:
+
+```
+#!/bin/bash
+
+hexo server --silent
+```
+
+- run the script
+
+```
+$ nohup ./start.sh &
+$ exit
+```
+
 
 ## Hexo Version
 

@@ -10,6 +10,7 @@ var Rendered = require('./rendered')
 var CheckGrammar = require('./check-grammar')
 var ConfigDropper = require('./config-dropper')
 var RenameFile = require('./rename-file')
+var PopGallery = require('./pop-gallery')
 
 var Editor = React.createClass({
 
@@ -39,9 +40,11 @@ var Editor = React.createClass({
       postPath: this.props.post.path,
       previewLink: completeURL,
       checkingGrammar: false,
+      openGallery: false
     }
   },
-  // TODO, ...juest for test
+
+  // TODO, ...just for test
   componentDidMount: function() {
 
   },
@@ -78,8 +81,18 @@ var Editor = React.createClass({
   // TODO, ...add real image address...
   onAddImage: function () {
     // console.log('add image...');
+    // this.setState({
+    //   mdImg: '![image]()'
+    // });
     this.setState({
-      mdImg: '![image]()'
+      openGallery: !this.state.openGallery
+    });
+  },
+
+  // hide the gallery
+  handleEditFocus: function () {
+    this.setState({
+      openGallery: false
     });
   },
 
@@ -144,15 +157,16 @@ var Editor = React.createClass({
               <RenameFile post={this.props.post}
                 handlePreviewLink={this.handlePreviewLink} /></span>
           </div>
-          {/* comment like this */}
           <CodeMirror
-            mdImg={this.state.mdImg}
+            // mdImg={this.state.mdImg}
+            onFocus={this.handleEditFocus}
             forceLineNumbers={this.state.checkingGrammar}
             onScroll={this.handleScroll}
             initialValue={this.props.raw}
             onChange={this.props.onChangeContent}
             adminSettings={this.props.adminSettings} />
         </div>
+        {/* end of editor */}
         <div className="editor_display">
           <div className="editor_display-header">
             <span className="editor_word-count">
@@ -171,9 +185,13 @@ var Editor = React.createClass({
             toggleGrammar={this.onCheckGrammar}
             raw={this.props.updatedRaw} />}
         </div>
+        {/* end of editor_display */}
       </div>
+      {/* end of editor_main */}
+      {this.state.openGallery && <PopGallery />}
     </div>;
-  }
-})
+    {/* end of editor template */}
+  }// end of render()
+})// end of component
 
 module.exports = Editor

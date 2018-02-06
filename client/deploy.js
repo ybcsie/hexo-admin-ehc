@@ -49,10 +49,6 @@ var Deploy = React.createClass({
           <pre>
             {this.state.stdout}
           </pre>
-          <h4>Std Error</h4>
-          <pre>
-            {this.state.stderr}
-          </pre>
         </div>
       );
     }
