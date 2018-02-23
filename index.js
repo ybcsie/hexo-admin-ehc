@@ -1,7 +1,8 @@
 var serveStatic = require('serve-static'),
   bodyParser = require('body-parser'),
   path = require('path'),
-  api = require('./api');
+  api = require('./api'),
+  upload = require('./upload');
 
 var passwordProtected = hexo.config.admin && hexo.config.admin.username;
 
@@ -33,4 +34,7 @@ hexo.extend.filter.register('server_middleware', function(app) {
 
   // setup the json api endpoints
   api(app, hexo);
+  // handle multifiles upload @2018/02/11
+  upload(app, hexo);
+
 });

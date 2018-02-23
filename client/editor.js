@@ -80,19 +80,20 @@ var Editor = React.createClass({
 
   // TODO, ...add real image address...
   onAddImage: function () {
-    // console.log('add image...');
-    // this.setState({
-    //   mdImg: '![image]()'
-    // });
     this.setState({
+      // mdImg: '![image]()',
       openGallery: !this.state.openGallery
     });
   },
 
   // hide the gallery
   handleEditFocus: function () {
+    this.setState({openGallery: false});
+  },
+
+  handleImgSelect: function (img) {
     this.setState({
-      openGallery: false
+      mdImg: '![image](/images/'+img+')',
     });
   },
 
@@ -158,7 +159,7 @@ var Editor = React.createClass({
                 handlePreviewLink={this.handlePreviewLink} /></span>
           </div>
           <CodeMirror
-            // mdImg={this.state.mdImg}
+            mdImg={this.state.mdImg}
             onFocus={this.handleEditFocus}
             forceLineNumbers={this.state.checkingGrammar}
             onScroll={this.handleScroll}
@@ -188,7 +189,7 @@ var Editor = React.createClass({
         {/* end of editor_display */}
       </div>
       {/* end of editor_main */}
-      {this.state.openGallery && <PopGallery />}
+      {this.state.openGallery && <PopGallery onChange={this.handleImgSelect}/>}
     </div>;
     {/* end of editor template */}
   }// end of render()

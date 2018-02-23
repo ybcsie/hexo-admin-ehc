@@ -1,5 +1,6 @@
 /**
- * v 2.2.4
+ * v 2.2.4 fix using reactjs v0.11.1
+ * @2018/02/06
  */
 
 // var React = require('react');
@@ -135,6 +136,7 @@ var Dropzone = React.createClass({
     }
   },
 
+  // FIXME, use getDOMNode rather than findDOMNode
   open: function() {
     // console.log(this.refs.fileInput);
     // var fileInput = React.findDOMNode(this.refs.fileInput);
@@ -180,6 +182,7 @@ var Dropzone = React.createClass({
       };
     }
 
+    // FIXME, browserify cannot understand spread operator?
     // var appliedStyle;
     // if (activeStyle && this.state.isDragActive) {
     //   appliedStyle = {

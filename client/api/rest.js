@@ -28,9 +28,26 @@ function _get(baseUrl, url, params) {
   })
 }
 
+// upload multi files by html input element
+// @2018/02/11
+function _multiFiles(baseUrl, url, files) {
+  return new Promise((f, r) => {
+    const req = request.post(baseUrl + url); // : '/admin/api/upload'
+    files.forEach(file => {
+      // add Blob
+      req.attach(file.name, file);
+    });
+    req.end((err, res) => {
+      if (err) return r(err)
+      f(res.body)
+    });
+  })
+}
+
 module.exports = function (baseUrl) {
   var post = _post.bind(null, baseUrl)
   var get = _get.bind(null, baseUrl)
+  var multiFiles = _multiFiles.bind(null, baseUrl)
 
   return {
     posts: () => get('/posts/list'),
@@ -46,6 +63,7 @@ module.exports = function (baseUrl) {
     },
     deploy: (message) => post('/deploy', {message: message}),
     newPage: (title) => post('/pages/new', {title: title}),
+    // for paste in editor
     uploadImage: (data, filename) => post('/images/upload', {data: data, filename: filename}),
     remove: (id) => post('/posts/' + id + '/remove'),
     publish: (id) => post('/posts/' + id + '/publish'),
@@ -59,6 +77,14 @@ module.exports = function (baseUrl) {
       name: name,
       value: value,
       addedOptions: addedOptions
-    })
+    }),
+    // add gallery api @2018/02/10
+    gallery: () => get('/gallery/list'),
+    setGallery: (name, createAt) => post('/gallery/set', {
+      name: name,
+      createAt: createAt
+    }),
+    // for Dropzone operation
+    uploadMultiFiles: (files) => multiFiles('/upload', files)
   }
 }

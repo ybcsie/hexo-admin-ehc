@@ -142,6 +142,21 @@ module.exports = function (app, hexo) {
     })
   }
 
+  //TODO, get gallery data
+  use('gallery/list', function (req, res) {
+    var json = 'hexo-admin-ehc-images.json';
+    var file = path.join(hexo.source_dir, json);
+    var content = fs.readFileSync(file);
+    res.done(JSON.parse(content));
+  });
+  //TODO, save new uploads to json
+  use('gallery/set', function (req, res) {
+    res.done({
+      result: 'success'
+    })
+  });
+
+
   use('tags-categories-and-metadata', function (req, res) {
     res.done(tagsCategoriesAndMetadata())
   });

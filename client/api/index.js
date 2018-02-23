@@ -8,6 +8,7 @@ var mod = {
     if ('string' === typeof type) {
       type = types[type]
     }
+    // config: baseUrl
     var api = type(config)
     for (var name in api) {
       mod[name] = api[name]
@@ -16,4 +17,3 @@ var mod = {
 };
 
 module.exports = mod;
-

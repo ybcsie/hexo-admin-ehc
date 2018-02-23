@@ -31,6 +31,7 @@ var CodeMirror = React.createClass({
 
     // COMPARE WITH PREVIOUS VALUE IS A MUST!
     // OTHERWISE LOOP INFINITELY
+    // @2018/02/06
     if(prevProps.mdImg !== this.props.mdImg) {
       this.cm.focus(); // focus first is a must!
       var cursor = this.lastCusor; // gets the line number in the cursor position
