@@ -71,7 +71,7 @@ support Hexo v3.x.
 ## Screenshots
 ![posts view](docs/pasted-0.png?raw=true)
 
-![editor view](docs/Snip20180305_3.png?raw=true)
+![editor view](docs/Snip20180305_4.png?raw=true)
 
 ## Quickstart
 
