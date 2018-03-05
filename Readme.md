@@ -13,6 +13,8 @@ An admin UI for the [Hexo blog engine](http://hexo.io). Based on the [Ghost](htt
 
 ## Plugin Code Structure
 
+```
+
 |- client : front end code for this admin UI and content manage
 |    |- run.js : build bundle.js entrance
 |    |- api folder  : front router mapping principles with baseUrl config
@@ -24,6 +26,8 @@ An admin UI for the [Hexo blog engine](http://hexo.io). Based on the [Ghost](htt
 |- index.js : plugin load entry by hexo blog
 |- api.js   : blog related data processing, save/read...
 |- upload.js: handle multi image file upload
+
+```
 
 ## Local client Development Workflow
 
