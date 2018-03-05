@@ -2,7 +2,7 @@
 
 An admin UI for the [Hexo blog engine](http://hexo.io). Based on the [Ghost](http://ghost.org) interface, with inspiration from [svbtle](http://svbtle.com) and [prose.io](http://prose.io).
 
-## Enhanced Version For
+## Enhanced Version For hexo-admin plugin on:
 
 - dependencies fix for hexo-fs;
 - editor enhancement for image upload and select;
@@ -68,16 +68,10 @@ support Hexo v3.x.
 - [**Quickstart**](#quickstart)
 - [**Credits**](#credits)
 
-# Local use vs deployment
-This plugin was originally designed as a local editor -- you run hexo locally, use `hexo-admin` to author posts, and then use `hexo generate` or `hexo deploy` to send the generated static HTML files up to github pages or some other static server.
-
-However, `hexo-admin` can be run on your live blog, as long as you're using a non-static hosting service such as Heroku, DigitalOcean, etc. Static hosting services such as Github pages and Surge.sh does not support running hexo-admin from your live site.
-If you're using Hexo admin from your live blog, you should definitely set up a password (see below) -- otherwise anyone will be able to edit your content.
-
 # Screenshots
 ![posts view](docs/pasted-0.png?raw=true)
 
-![editor view](docs/pasted-1.png?raw=true)
+![editor view](docs/Snip20180305_3.png?raw=true)
 
 # Quickstart
 ### 1. Setup hexo & create a blog
@@ -90,7 +84,7 @@ npm install
 ```
 ### 2. Install the admin & start things up
 ```sh
-npm install --save hexo-admin
+npm install --save hexo-admin-ehc
 hexo server -d
 open http://localhost:4000/admin/
 ```
@@ -130,15 +124,3 @@ metadata:
 ```
 You can provide default values that will be used to initialize the metadata
 of a new post. These can be either primitives or arrays.
-
-### 6. Contribute!
-- let me know how it can be improved in the [github
-  issues](https://github.com/jaredly/hexo-admin/issues)
-- [fork](https://github.com/jaredly/hexo-admin) and pull-request
-
-# Credits
-
-built with ❤ by [Jared Forsyth](http://jaredly.github.io)
-([@jaredforsyth](http://twitter.com/jaredforsyth)) using
-[react](http://facebook.github.io/react), [browserify](
-http://browserify.org), and [less](http://lesscss.org).
