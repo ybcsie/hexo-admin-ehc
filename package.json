@@ -1,6 +1,6 @@
 {
   "name": "hexo-admin-ehc",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "Adds an admin section to the hexo server -- enchance version",
   "main": "index.js",
   "scripts": {

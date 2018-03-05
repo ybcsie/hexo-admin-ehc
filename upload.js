@@ -1,5 +1,5 @@
 /**
- * handle multi file upload
+ * handle multi image file upload
  * @2018/02/11
  */
 var path = require('path');

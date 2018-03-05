@@ -68,7 +68,7 @@ var PopGallery = React.createClass({
     return (
       <div className="gallery">
         <div className="arrow-up"></div>
-        <div className="header">图片选择器</div>
+        <div className="header">Image Selector</div>
         <div className="grid">
           <Dropzone onDrop={this.onDrop} className="dropzone" accept="image/jpeg, image/png">
             <div className="drop-zone-txt">Try dropping some files here, or click to select files to upload.</div>

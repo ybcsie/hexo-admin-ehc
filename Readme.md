@@ -1,6 +1,6 @@
 ![logo](docs/logo.png?raw=true)
 
-An admin UI for the [Hexo blog engine](http://hexo.io). Based off of the [Ghost](http://ghost.org) interface, with inspiration from [svbtle](http://svbtle.com) and [prose.io](http://prose.io).
+An admin UI for the [Hexo blog engine](http://hexo.io). Based on the [Ghost](http://ghost.org) interface, with inspiration from [svbtle](http://svbtle.com) and [prose.io](http://prose.io).
 
 ## Enhanced Version For
 
@@ -10,6 +10,20 @@ An admin UI for the [Hexo blog engine](http://hexo.io). Based off of the [Ghost]
 - fix preview link opening;
 - multi language support
 - todos...
+
+## Plugin Code Structure
+
+|- client : front end code for this admin UI and content manage
+|    |- run.js : build bundle.js entrance
+|    |- api folder  : front router mapping principles with baseUrl config
+|    |- less folder : each component style included by less/index.less
+|    |- app.js : menu bar
+|    |- index.js : root component inited by run.js, admin(node)
+|    |- router.js : each admin module navigation corresponding component
+|    |- ... :
+|- index.js : plugin load entry by hexo blog
+|- api.js   : blog related data processing, save/read...
+|- upload.js: handle multi image file upload
 
 ## Local client Development Workflow
 
@@ -36,7 +50,7 @@ An admin UI for the [Hexo blog engine](http://hexo.io). Based off of the [Ghost]
 hexo server --silent
 ```
 
-- run the script
+- run the script in the blog root directory
 
 ```
 $ nohup ./start.sh &
