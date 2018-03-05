@@ -67,14 +67,14 @@ $ exit
 For 2.x, use version `0.3.0` of this plugin. Version `1.x` and beyond only
 support Hexo v3.x.
 
-### Contents
 
-# Screenshots
+## Screenshots
 ![posts view](docs/pasted-0.png?raw=true)
 
 ![editor view](docs/Snip20180305_3.png?raw=true)
 
-# Quickstart
+## Quickstart
+
 ### 1. Setup hexo & create a blog
 ```sh
 npm install -g hexo
