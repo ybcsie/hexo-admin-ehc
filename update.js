@@ -82,9 +82,21 @@ module.exports = function (model, id, update, callback, hexo) {
 				var assetDest = removeExtname(fsrc);
 				fs.exists(assetPrev).then(function (exist) {
 					if (exist) {
-						fs.copyDir(assetPrev, assetDest).then(function () {
-							fs.rmdir(assetPrev);
-						});
+						fs.exists(assetDest).then(dest_exist => {
+							if (!dest_exist)
+								fs.mkdir(assetDest).then(() => {
+									fs.copyDir(assetPrev, assetDest).then(function () {
+										fs.rmdir(assetPrev);
+									});
+
+								})
+							else
+								fs.copyDir(assetPrev, assetDest).then(function () {
+									fs.rmdir(assetPrev);
+								});
+
+
+						})
 					}
 				});
 			}
