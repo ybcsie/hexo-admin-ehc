@@ -38,11 +38,12 @@ module.exports = function (model, id, update, callback, hexo) {
 		preservedKeys.push(key);
 	});
 	var prev_full = post.full_source,
-		full_source = prev_full;
+		full_source = prev_full,
+		fsrc_need_ensure = false;
 	if (update.source && update.source !== post.source) {
 		// post.full_source only readable ~ see: /hexo/lib/models/post.js
 		full_source = hexo.source_dir + update.source
-		full_source = fs.ensurePathSync(full_source);
+		fsrc_need_ensure = true;
 	}
 
 	preservedKeys.forEach(function (attr) {
@@ -69,16 +70,16 @@ module.exports = function (model, id, update, callback, hexo) {
 
 	extend(post, update)
 
-	post.save(function () {
+	function save_func(fsrc) {
 		//  console.log(post.full_source, post.source)
-		fs.writeFile(full_source, raw, function (err) {
+		fs.writeFile(fsrc, raw, function (err) {
 			if (err) return callback(err);
 
-			if (full_source !== prev_full) {
+			if (fsrc !== prev_full) {
 				fs.unlinkSync(prev_full)
 				// move asset dir
 				var assetPrev = removeExtname(prev_full);
-				var assetDest = removeExtname(full_source);
+				var assetDest = removeExtname(fsrc);
 				fs.exists(assetPrev).then(function (exist) {
 					if (exist) {
 						fs.copyDir(assetPrev, assetDest).then(function () {
@@ -92,5 +93,14 @@ module.exports = function (model, id, update, callback, hexo) {
 				callback(null, hexo.model(model).get(id));
 			});
 		});
+	}
+
+	post.save(function () {
+		if (fsrc_need_ensure)
+			fs.ensurePath(full_source).then(full_source_ => {
+				save_func(full_source_);
+			})
+		else
+			save_func(full_source);
 	});
 }
