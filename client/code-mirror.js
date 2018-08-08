@@ -119,7 +119,7 @@ var CodeMirror = React.createClass({
 			}
 			console.log(this.props);
 			api.uploadImage(event.target.result, filename, this.props.post.asset_dir, this.props.post._id).then((res) =>
-				this.cm.replaceSelection(`\n![${res.msg}](${res.src})`)
+				this.cm.replaceSelection(`\n${res.src}`)
 			);
 		};
 		reader.readAsDataURL(blob);

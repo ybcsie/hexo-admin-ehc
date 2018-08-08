@@ -378,7 +378,6 @@ module.exports = function (app, hexo) {
 			imagePrefix = settings.options.imagePrefix ? settings.options.imagePrefix : imagePrefix
 		}
 
-		var msg = 'uploaded!'
 		var i = 0
 		while (fs.existsSync(path.join(imagePath, imagePrefix + i + '.png'))) {
 			i += 1
@@ -418,9 +417,7 @@ module.exports = function (app, hexo) {
 			console.log('hexo.config.url: ' + hexo.config.url);
 			hexo.source.process().then(function () {
 				res.done({
-					// FIXME, use image URL to display image rather than relative path @2018/02/04
-					src: hexo.config.url + path.join('/', postId, filename),
-					msg: msg
+					src: '{% asset_img ' + filename + ' description %}'
 				})
 			});
 		})

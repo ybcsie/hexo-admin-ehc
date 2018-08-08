@@ -30,9 +30,16 @@ function _get(baseUrl, url, params) {
 
 // upload multi files by html input element
 // @2018/02/11
-function _multiFiles(baseUrl, url, files) {
+function _multiFiles(baseUrl, url, files, asset_dir, postId) {
 	return new Promise((f, r) => {
 		const req = request.post(baseUrl + url); // : '/admin/api/upload'
+
+		if (asset_dir)
+			req.field('asset_dir', asset_dir)
+
+		if (postId)
+			req.field('postId', postId)
+
 		files.forEach(file => {
 			// add Blob
 			req.attach(file.name, file);
@@ -85,6 +92,6 @@ module.exports = function (baseUrl) {
 			createAt: createAt
 		}),
 		// for Dropzone operation
-		uploadMultiFiles: (files) => multiFiles('/upload', files)
+		uploadMultiFiles: (files, asset_dir, postId) => multiFiles('/upload', files, asset_dir, postId)
 	}
 }

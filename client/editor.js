@@ -92,8 +92,10 @@ var Editor = React.createClass({
 	},
 
 	handleImgSelect: function (img) {
+		console.log(this.props);
+		console.log(this.state);
 		this.setState({
-			mdImg: '![image](/images/' + img + ')',
+			mdImg: '{% asset_img ' + img + ' description %}',
 		});
 	},
 
@@ -190,7 +192,9 @@ var Editor = React.createClass({
 				{/* end of editor_display */}
 			</div>
 			{/* end of editor_main */}
-			{this.state.openGallery && <PopGallery onChange={this.handleImgSelect} />}
+			{this.state.openGallery && <PopGallery
+				post={this.props.post}
+				onChange={this.handleImgSelect} />}
 		</div>;
 		{/* end of editor template */ }
 	}// end of render()
