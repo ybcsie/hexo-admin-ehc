@@ -92,10 +92,8 @@ var Editor = React.createClass({
 	},
 
 	handleImgSelect: function (img) {
-		console.log(this.props);
-		console.log(this.state);
 		this.setState({
-			mdImg: '{% asset_img ' + img + ' description %}',
+			mdImg: '<!--assetlinker-->![description](' + img + ')\n',
 		});
 	},
 

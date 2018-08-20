@@ -71,7 +71,7 @@ module.exports = function (baseUrl) {
 		deploy: (message) => post('/deploy', { message: message }),
 		newPage: (title) => post('/pages/new', { title: title }),
 		// for paste in editor
-		uploadImage: (data, filename, asset_dir, postId) => post('/images/upload', { data: data, filename: filename, asset_dir: asset_dir, postId: postId }),
+		uploadImage: (data, filename, asset_dir) => post('/images/upload', { data: data, filename: filename, asset_dir: asset_dir }),
 		remove: (id) => post('/posts/' + id + '/remove'),
 		publish: (id) => post('/posts/' + id + '/publish'),
 		unpublish: (id) => post('/posts/' + id + '/unpublish'),
@@ -86,7 +86,7 @@ module.exports = function (baseUrl) {
 			addedOptions: addedOptions
 		}),
 		// add gallery api @2018/02/10
-		gallery: () => get('/gallery/list'),
+		gallery: (postId) => get('/gallery/list/' + postId),
 		setGallery: (name, createAt) => post('/gallery/set', {
 			name: name,
 			createAt: createAt

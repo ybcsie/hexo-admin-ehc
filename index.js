@@ -9,11 +9,6 @@ var passwordProtected = hexo.config.admin && hexo.config.admin.username;
 // verify that correct config options are set.
 
 var config_ok = true;
-if (hexo.config.permalink != ':id/') {
-	config_ok = false
-	console.error('[Hexo Admin]: config permalink has to be \':id/\'');
-}
-
 if (!hexo.config.post_asset_folder) {
 	config_ok = false
 	console.error('[Hexo Admin]: config post_asset_folder has to be true');

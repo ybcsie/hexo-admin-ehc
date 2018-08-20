@@ -142,12 +142,23 @@ module.exports = function (app, hexo) {
 		})
 	}
 
-	//TODO, get gallery data
-	use('gallery/list', function (req, res) {
-		var json = 'hexo-admin-ehc-images.json';
-		var file = path.join(hexo.source_dir, json);
-		var content = fs.readFileSync(file);
-		res.done(JSON.parse(content));
+	use('gallery/list/', function (req, res) {
+		var url = req.url
+		if (url[url.length - 1] === '/') {
+			url = url.slice(0, -1)
+		}
+		var parts = url.split('/')
+		var postId = parts[parts.length - 1]
+		var post = hexo.model('Post').get(postId)
+
+		if (fs.existsSync(post.asset_dir)) {
+			var files = fs.listDirSync(post.asset_dir);
+			for (var i = 0; i < files.length; i++)
+				files[i] = { name: files[i] };
+			res.done(files);
+		}
+		else
+			res.done([]);
 	});
 	//TODO, save new uploads to json
 	use('gallery/set', function (req, res) {
@@ -361,13 +372,10 @@ module.exports = function (app, hexo) {
 		if (!req.body.asset_dir) {
 			return res.send(400, 'No asset_dir given');
 		}
-		if (!req.body.postId) {
-			return res.send(400, 'No postId given');
-		}
+
 		var settings = getSettings()
 
 		var imagePath = req.body.asset_dir
-		var postId = req.body.postId
 		var imagePrefix = 'pasted-'
 		var askImageFilename = false
 		var overwriteImages = false
@@ -410,17 +418,20 @@ module.exports = function (app, hexo) {
 		var dataURI = req.body.data.slice('data:image/png;base64,'.length)
 		var buf = new Buffer(dataURI, 'base64')
 		hexo.log.d(`saving image to ${outpath}`)
+
 		fs.writeFile(outpath, buf, function (err) {
 			if (err) {
 				console.log(err)
 			}
-			console.log('hexo.config.url: ' + hexo.config.url);
 			hexo.source.process().then(function () {
 				res.done({
-					src: '{% asset_img ' + filename + ' description %}'
+					filename: filename
 				})
 			});
 		})
+
+
+
 	});
 
 	// using deploy to generate static pages

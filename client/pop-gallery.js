@@ -18,7 +18,7 @@ var PopGallery = React.createClass({
 
 	componentDidMount: function () {
 		console.log('get gallery....');
-		api.gallery().then(result => {
+		api.gallery(this.props.post._id).then(result => {
 			// console.log(result);
 			this.setState({ files: result });
 		});
@@ -44,10 +44,11 @@ var PopGallery = React.createClass({
 		context.setState({ files: origFiles });
 
 		// sending....
-		api.uploadMultiFiles(files, this.props.post.asset_dir, this.props.post._id).then(result => {
+		var postId = context.props.post._id;
+		api.uploadMultiFiles(files, context.props.post.asset_dir, postId).then(result => {
 			// FIXME, lazy reload images to wait image file write to disk @2018/02/22
 			setTimeout(() => {
-				api.gallery().then(result => {
+				api.gallery(postId).then(result => {
 					// console.log(result);
 					context.setState({ files: result });
 				});
@@ -80,7 +81,7 @@ var PopGallery = React.createClass({
 								return (
 									<div className="img-ctnr" onClick={this._onChange.bind(null, file.name)}>
 										{file.preview ? <div className="sending"><span>sending...</span></div> : null}
-										<img src={file.preview || '/images/' + file.name} className="img-cell" />
+										<img src={file.preview || '../' + this.props.post.path + file.name} className="img-cell" />
 									</div>
 								);
 							})

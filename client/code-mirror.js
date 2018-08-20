@@ -113,14 +113,16 @@ var CodeMirror = React.createClass({
 			var filename = null;
 			if (settings.options) {
 				if (!!settings.options.askImageFilename) {
-					var filePath = !!settings.options.imagePath ? settings.options.imagePath : '/images'
+					var filePath = this.props.post.asset_dir
 					filename = prompt(`What would you like to name the photo? All files saved as pngs. Name will be relative to ${filePath}.`, 'image.png')
 				}
 			}
-			console.log(this.props);
-			api.uploadImage(event.target.result, filename, this.props.post.asset_dir, this.props.post._id).then((res) =>
-				this.cm.replaceSelection(`\n${res.src}`)
-			);
+			api.uploadImage(event.target.result, filename, this.props.post.asset_dir).then((res) => {
+				setTimeout(() => {
+					this.cm.replaceSelection(`\n<!--assetlinker-->![description](${res.filename})`)
+				}, 300);
+
+			})
 		};
 		reader.readAsDataURL(blob);
 	},
