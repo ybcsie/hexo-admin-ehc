@@ -84,15 +84,46 @@ cd my-blog
 npm install
 ```
 ### 2. Install the admin & start things up
-```sh
-npm install --save hexo-admin-ehc
-hexo server -d
-open http://localhost:4000/admin/
+get source code from:
+https://github.com/ybcsie/hexo-admin-ehc
+
+save it to the root of hexo_dir(my-blog)
+
+```bash
+npm install source_code_dir_name
 ```
-### 3. Profit!
+
+_config.yml settings:
+```bash
+post_asset_folder: true
+```
+
+test:
+```bash
+hexo server -d
+```
+
+check http://localhost:4000/admin/
+
+
+### 3. fix relative path problem with assetlinker:
+default theme landscape for example
+edit hexo_dir(my-blog)/themes/landscape/layout/_partial/article.ejs
+
+find
+```javascript
+post.content
+```
+
+replace with
+```javascript
+assetlinker(post.content, post.path)
+```
+
+### 4. Profit!
 The UI should be pretty discoverable -- let me know if you can't find something.
 
-### 4. Password protection
+### 5. Password protection
 If you're using Hexo admin on your live server, you want some password
 protection. To enable this, you just add a few config variables to your hexo
 `_config.yml`:
@@ -115,7 +146,7 @@ and fill out your information. Copy the generated YAML into your `_config.yml`.
 Once that's in place, start up your hexo server and going to `/admin/` will
 require you to enter your password.
 
-### 5. Custom post metadata
+### 6. Custom post metadata
 To add and edit your own post metadata with the admin interface, add the
 metadata variable and your custom variables to your hexo `_config.yml`:
 ```
