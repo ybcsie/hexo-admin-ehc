@@ -21,6 +21,7 @@ if (!config_ok) {
 
 }
 else {
+	hexo.extend.helper.register('assetlinker', require('./assetlinker'));
 
 	if (passwordProtected) {
 		if (!hexo.config.admin.password_hash) {
