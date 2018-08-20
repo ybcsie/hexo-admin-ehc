@@ -89,6 +89,12 @@ https://github.com/ybcsie/hexo-admin-ehc
 
 save it to the root of hexo_dir(my-blog)
 
+in source_code_dir
+```sh
+npm install
+```
+
+in hexo_dir(my-blog)
 ```bash
 npm install source_code_dir_name
 ```
