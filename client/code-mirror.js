@@ -119,7 +119,7 @@ var CodeMirror = React.createClass({
 			}
 			api.uploadImage(event.target.result, filename, this.props.post.asset_dir).then((res) => {
 				setTimeout(() => {
-					this.cm.replaceSelection(`\n<!--assetlinker-->![description](${res.filename})`)
+					this.cm.replaceSelection(`\n![description](assetlinker://${res.filename})`)
 				}, 300);
 
 			})

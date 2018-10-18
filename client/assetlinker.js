@@ -1,52 +1,36 @@
 'use strict';
 
-const url = require('url');
 let cheerio;
 
-const rAssetlink = /-*\s*assetlinker\s*-*/i;
+const ASSETLINKER_PRO = "assetlinker://";
 
 function assetlinker(content, url_for_post) {
 	if (!url_for_post)
 		return content
 
-	if (!rAssetlink.test(content))
+	if (content.indexOf(ASSETLINKER_PRO) < 0)
 		return content
 
 	if (!cheerio) cheerio = require('cheerio');
 	const $ = cheerio.load(content, { decodeEntities: false });
 
 	$('*').contents().each(function () {
-		if (this.type != 'comment')
+		if (!this.name)
 			return;
 
-		if (!this.data)
-			return;
-
-		if (!rAssetlink.test(this.data))
-			return;
-
-		var tag = this.next;
-		if (!tag.name)
-			return;
 		var attr;
 
-
-		if (tag.name == 'img' && tag.attribs['src'])
+		if (this.name == 'img' && this.attribs['src'])
 			attr = 'src'
 
-		else if (tag.name == 'a' && tag.attribs['href'])
+		else if (this.name == 'a' && this.attribs['href'])
 			attr = 'href'
 
 		else
 			return;
 
-		const data = url.parse(tag.attribs[attr]);
 
-		// Exit if the link have protocol, which means it's a external link
-		if (data.protocol) return;
-
-
-		tag.attribs[attr] = url_for_post + tag.attribs[attr]
+		this.attribs[attr] = this.attribs[attr].replace(ASSETLINKER_PRO, url_for_post);
 
 
 	});
